@@ -1,0 +1,15 @@
+import { NgModule } from '@angular/core';
+import { ChartCommonModule } from '../common/chart-common.module';
+import { LineComponent } from './line.component';
+import { LineChartComponent } from './line-chart.component';
+import { LineSeriesComponent } from './line-series.component';
+export class LineChartModule {
+}
+LineChartModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [ChartCommonModule],
+                declarations: [LineComponent, LineChartComponent, LineSeriesComponent],
+                exports: [LineComponent, LineChartComponent, LineSeriesComponent]
+            },] }
+];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibGluZS1jaGFydC5tb2R1bGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi9wcm9qZWN0cy9zd2ltbGFuZS9uZ3gtY2hhcnRzL3NyYy9saWIvbGluZS1jaGFydC9saW5lLWNoYXJ0Lm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ3pDLE9BQU8sRUFBRSxpQkFBaUIsRUFBRSxNQUFNLCtCQUErQixDQUFDO0FBQ2xFLE9BQU8sRUFBRSxhQUFhLEVBQUUsTUFBTSxrQkFBa0IsQ0FBQztBQUNqRCxPQUFPLEVBQUUsa0JBQWtCLEVBQUUsTUFBTSx3QkFBd0IsQ0FBQztBQUM1RCxPQUFPLEVBQUUsbUJBQW1CLEVBQUUsTUFBTSx5QkFBeUIsQ0FBQztBQU85RCxNQUFNLE9BQU8sZUFBZTs7O1lBTDNCLFFBQVEsU0FBQztnQkFDUixPQUFPLEVBQUUsQ0FBQyxpQkFBaUIsQ0FBQztnQkFDNUIsWUFBWSxFQUFFLENBQUMsYUFBYSxFQUFFLGtCQUFrQixFQUFFLG1CQUFtQixDQUFDO2dCQUN0RSxPQUFPLEVBQUUsQ0FBQyxhQUFhLEVBQUUsa0JBQWtCLEVBQUUsbUJBQW1CLENBQUM7YUFDbEUiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBOZ01vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xyXG5pbXBvcnQgeyBDaGFydENvbW1vbk1vZHVsZSB9IGZyb20gJy4uL2NvbW1vbi9jaGFydC1jb21tb24ubW9kdWxlJztcclxuaW1wb3J0IHsgTGluZUNvbXBvbmVudCB9IGZyb20gJy4vbGluZS5jb21wb25lbnQnO1xyXG5pbXBvcnQgeyBMaW5lQ2hhcnRDb21wb25lbnQgfSBmcm9tICcuL2xpbmUtY2hhcnQuY29tcG9uZW50JztcclxuaW1wb3J0IHsgTGluZVNlcmllc0NvbXBvbmVudCB9IGZyb20gJy4vbGluZS1zZXJpZXMuY29tcG9uZW50JztcclxuXHJcbkBOZ01vZHVsZSh7XHJcbiAgaW1wb3J0czogW0NoYXJ0Q29tbW9uTW9kdWxlXSxcclxuICBkZWNsYXJhdGlvbnM6IFtMaW5lQ29tcG9uZW50LCBMaW5lQ2hhcnRDb21wb25lbnQsIExpbmVTZXJpZXNDb21wb25lbnRdLFxyXG4gIGV4cG9ydHM6IFtMaW5lQ29tcG9uZW50LCBMaW5lQ2hhcnRDb21wb25lbnQsIExpbmVTZXJpZXNDb21wb25lbnRdXHJcbn0pXHJcbmV4cG9ydCBjbGFzcyBMaW5lQ2hhcnRNb2R1bGUge31cclxuIl19
