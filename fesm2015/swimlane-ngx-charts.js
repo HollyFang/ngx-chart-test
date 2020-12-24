@@ -1002,51 +1002,6 @@ function reduceTicks(ticks, maxTicks) {
     return ticks;
 }
 
-/**
- * Generates a rounded rectanglar path
- *
- * @export
- * @param x, y, w, h, r, tl, tr, bl, br
- */
-function roundedRect(x, y, w, h, r, [tl, tr, bl, br]) {
-    let retval = '';
-    w = Math.floor(w);
-    h = Math.floor(h);
-    w = w === 0 ? 1 : w;
-    h = h === 0 ? 1 : h;
-    retval = `M${[x + r, y]}`;
-    retval += `h${w - 2 * r}`;
-    if (tr) {
-        retval += `a${[r, r]} 0 0 1 ${[r, r]}`;
-    }
-    else {
-        retval += `h${r}v${r}`;
-    }
-    retval += `v${h - 2 * r}`;
-    if (br) {
-        retval += `a${[r, r]} 0 0 1 ${[-r, r]}`;
-    }
-    else {
-        retval += `v${r}h${-r}`;
-    }
-    retval += `h${2 * r - w}`;
-    if (bl) {
-        retval += `a${[r, r]} 0 0 1 ${[-r, -r]}`;
-    }
-    else {
-        retval += `h${-r}v${-r}`;
-    }
-    retval += `v${2 * r - h}`;
-    if (tl) {
-        retval += `a${[r, r]} 0 0 1 ${[r, -r]}`;
-    }
-    else {
-        retval += `v${-r}h${r}`;
-    }
-    retval += `z`;
-    return retval;
-}
-
 class XAxisTicksComponent {
     constructor() {
         this.tickArguments = [5];
@@ -1118,14 +1073,13 @@ class XAxisTicksComponent {
         setTimeout(() => this.updateDims());
     }
     setActiveTime() {
-        let activeVal = this.adjustedScale(this.activeTime);
-        console.log('setReferencelines');
-        this.activeTimePath = roundedRect(activeVal, this.height, 1, this.height, 0, [
-            false,
-            false,
-            false,
-            false
-        ]);
+        this.activeVal = this.adjustedScale(this.activeTime);
+        /*this.activeTimePath = roundedRect(activeVal, this.height+6, 1, 0, 0, [
+          false,
+          false,
+          false,
+          false
+        ]);*/
     }
     getRotationAngle(ticks) {
         let angle = 0;
@@ -1199,11 +1153,27 @@ XAxisTicksComponent.decorators = [
       </svg:g>
     </svg:g>
 
-    <svg:path
-      *ngIf="activeTime"
-      [attr.d]="activeTimePath"
-      [attr.transform]="gridLineTransform()"
-    />
+
+    <svg:g *ngIf="activeTime">
+      <svg:line
+        class="refline-path gridline-path-horizontal"
+        [attr.x1]="activeVal"
+        y1="0"
+        [attr.x2]="activeVal"
+        [attr.y2]="-gridLineHeight-6"
+        [attr.transform]="gridLineTransform()"
+      />
+      <svg:text
+        class="refline-label"
+        [attr.y]="-gridLineHeight-8"
+        [attr.x]="activeVal"
+        text-anchor="middle"
+      >
+        {{ activeTime }}
+      </svg:text>
+    </svg:g>
+
+
     <svg:g *ngFor="let tick of ticks" [attr.transform]="tickTransform(tick)">
       <svg:g *ngIf="showGridLines" [attr.transform]="gridLineTransform()">
         <svg:line class="gridline-path gridline-path-vertical" [attr.y1]="-gridLineHeight" y2="0" />
@@ -1321,6 +1291,51 @@ XAxisComponent.propDecorators = {
     dimensionsChanged: [{ type: Output }],
     ticksComponent: [{ type: ViewChild, args: [XAxisTicksComponent,] }]
 };
+
+/**
+ * Generates a rounded rectanglar path
+ *
+ * @export
+ * @param x, y, w, h, r, tl, tr, bl, br
+ */
+function roundedRect(x, y, w, h, r, [tl, tr, bl, br]) {
+    let retval = '';
+    w = Math.floor(w);
+    h = Math.floor(h);
+    w = w === 0 ? 1 : w;
+    h = h === 0 ? 1 : h;
+    retval = `M${[x + r, y]}`;
+    retval += `h${w - 2 * r}`;
+    if (tr) {
+        retval += `a${[r, r]} 0 0 1 ${[r, r]}`;
+    }
+    else {
+        retval += `h${r}v${r}`;
+    }
+    retval += `v${h - 2 * r}`;
+    if (br) {
+        retval += `a${[r, r]} 0 0 1 ${[-r, r]}`;
+    }
+    else {
+        retval += `v${r}h${-r}`;
+    }
+    retval += `h${2 * r - w}`;
+    if (bl) {
+        retval += `a${[r, r]} 0 0 1 ${[-r, -r]}`;
+    }
+    else {
+        retval += `h${-r}v${-r}`;
+    }
+    retval += `v${2 * r - h}`;
+    if (tl) {
+        retval += `a${[r, r]} 0 0 1 ${[r, -r]}`;
+    }
+    else {
+        retval += `v${-r}h${r}`;
+    }
+    retval += `z`;
+    return retval;
+}
 
 class YAxisTicksComponent {
     constructor() {

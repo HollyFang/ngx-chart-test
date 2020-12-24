@@ -1305,52 +1305,6 @@
         return ticks;
     }
 
-    /**
-     * Generates a rounded rectanglar path
-     *
-     * @export
-     * @param x, y, w, h, r, tl, tr, bl, br
-     */
-    function roundedRect(x, y, w, h, r, _a) {
-        var _b = __read(_a, 4), tl = _b[0], tr = _b[1], bl = _b[2], br = _b[3];
-        var retval = '';
-        w = Math.floor(w);
-        h = Math.floor(h);
-        w = w === 0 ? 1 : w;
-        h = h === 0 ? 1 : h;
-        retval = "M" + [x + r, y];
-        retval += "h" + (w - 2 * r);
-        if (tr) {
-            retval += "a" + [r, r] + " 0 0 1 " + [r, r];
-        }
-        else {
-            retval += "h" + r + "v" + r;
-        }
-        retval += "v" + (h - 2 * r);
-        if (br) {
-            retval += "a" + [r, r] + " 0 0 1 " + [-r, r];
-        }
-        else {
-            retval += "v" + r + "h" + -r;
-        }
-        retval += "h" + (2 * r - w);
-        if (bl) {
-            retval += "a" + [r, r] + " 0 0 1 " + [-r, -r];
-        }
-        else {
-            retval += "h" + -r + "v" + -r;
-        }
-        retval += "v" + (2 * r - h);
-        if (tl) {
-            retval += "a" + [r, r] + " 0 0 1 " + [r, -r];
-        }
-        else {
-            retval += "v" + -r + "h" + r;
-        }
-        retval += "z";
-        return retval;
-    }
-
     var XAxisTicksComponent = /** @class */ (function () {
         function XAxisTicksComponent() {
             this.tickArguments = [5];
@@ -1425,14 +1379,13 @@
             setTimeout(function () { return _this.updateDims(); });
         };
         XAxisTicksComponent.prototype.setActiveTime = function () {
-            var activeVal = this.adjustedScale(this.activeTime);
-            console.log('setReferencelines');
-            this.activeTimePath = roundedRect(activeVal, this.height, 1, this.height, 0, [
-                false,
-                false,
-                false,
-                false
-            ]);
+            this.activeVal = this.adjustedScale(this.activeTime);
+            /*this.activeTimePath = roundedRect(activeVal, this.height+6, 1, 0, 0, [
+              false,
+              false,
+              false,
+              false
+            ]);*/
         };
         XAxisTicksComponent.prototype.getRotationAngle = function (ticks) {
             var angle = 0;
@@ -1492,7 +1445,7 @@
     XAxisTicksComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'g[ngx-charts-x-axis-ticks]',
-                    template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks\" class=\"tick\" [attr.transform]=\"tickTransform(tick)\">\n        <title>{{ tickFormat(tick) }}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\"\n        >\n          {{ tickTrim(tickFormat(tick)) }}\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:path\n      *ngIf=\"activeTime\"\n      [attr.d]=\"activeTimePath\"\n      [attr.transform]=\"gridLineTransform()\"\n    />\n    <svg:g *ngFor=\"let tick of ticks\" [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\" [attr.transform]=\"gridLineTransform()\">\n        <svg:line class=\"gridline-path gridline-path-vertical\" [attr.y1]=\"-gridLineHeight\" y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
+                    template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks\" class=\"tick\" [attr.transform]=\"tickTransform(tick)\">\n        <title>{{ tickFormat(tick) }}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\"\n        >\n          {{ tickTrim(tickFormat(tick)) }}\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n\n    <svg:g *ngIf=\"activeTime\">\n      <svg:line\n        class=\"refline-path gridline-path-horizontal\"\n        [attr.x1]=\"activeVal\"\n        y1=\"0\"\n        [attr.x2]=\"activeVal\"\n        [attr.y2]=\"-gridLineHeight-6\"\n        [attr.transform]=\"gridLineTransform()\"\n      />\n      <svg:text\n        class=\"refline-label\"\n        [attr.y]=\"-gridLineHeight-8\"\n        [attr.x]=\"activeVal\"\n        text-anchor=\"middle\"\n      >\n        {{ activeTime }}\n      </svg:text>\n    </svg:g>\n\n\n    <svg:g *ngFor=\"let tick of ticks\" [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\" [attr.transform]=\"gridLineTransform()\">\n        <svg:line class=\"gridline-path gridline-path-vertical\" [attr.y1]=\"-gridLineHeight\" y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
                     changeDetection: core.ChangeDetectionStrategy.OnPush
                 },] }
     ];
@@ -1577,6 +1530,52 @@
         dimensionsChanged: [{ type: core.Output }],
         ticksComponent: [{ type: core.ViewChild, args: [XAxisTicksComponent,] }]
     };
+
+    /**
+     * Generates a rounded rectanglar path
+     *
+     * @export
+     * @param x, y, w, h, r, tl, tr, bl, br
+     */
+    function roundedRect(x, y, w, h, r, _a) {
+        var _b = __read(_a, 4), tl = _b[0], tr = _b[1], bl = _b[2], br = _b[3];
+        var retval = '';
+        w = Math.floor(w);
+        h = Math.floor(h);
+        w = w === 0 ? 1 : w;
+        h = h === 0 ? 1 : h;
+        retval = "M" + [x + r, y];
+        retval += "h" + (w - 2 * r);
+        if (tr) {
+            retval += "a" + [r, r] + " 0 0 1 " + [r, r];
+        }
+        else {
+            retval += "h" + r + "v" + r;
+        }
+        retval += "v" + (h - 2 * r);
+        if (br) {
+            retval += "a" + [r, r] + " 0 0 1 " + [-r, r];
+        }
+        else {
+            retval += "v" + r + "h" + -r;
+        }
+        retval += "h" + (2 * r - w);
+        if (bl) {
+            retval += "a" + [r, r] + " 0 0 1 " + [-r, -r];
+        }
+        else {
+            retval += "h" + -r + "v" + -r;
+        }
+        retval += "v" + (2 * r - h);
+        if (tl) {
+            retval += "a" + [r, r] + " 0 0 1 " + [r, -r];
+        }
+        else {
+            retval += "v" + -r + "h" + r;
+        }
+        retval += "z";
+        return retval;
+    }
 
     var YAxisTicksComponent = /** @class */ (function () {
         function YAxisTicksComponent() {

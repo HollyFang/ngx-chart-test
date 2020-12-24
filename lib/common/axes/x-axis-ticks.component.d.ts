@@ -27,7 +27,7 @@ export declare class XAxisTicksComponent implements OnChanges, AfterViewInit {
     ticks: any;
     tickFormat: (o: any) => any;
     height: number;
-    activeTimePath: string;
+    activeVal: any;
     ticksElement: ElementRef;
     ngOnChanges(changes: SimpleChanges): void;
     ngAfterViewInit(): void;
