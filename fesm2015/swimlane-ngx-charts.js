@@ -1159,8 +1159,9 @@ XAxisTicksComponent.decorators = [
         class="refline-path gridline-path-horizontal"
         [attr.x1]="activeVal"
         y1="0"
+        style="stroke: #000;"
         [attr.x2]="activeVal"
-        [attr.y2]="-gridLineHeight-6"
+        [attr.y2]="gridLineHeight+6"
         [attr.transform]="gridLineTransform()"
       />
       <svg:text
