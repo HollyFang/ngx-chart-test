@@ -1168,7 +1168,7 @@ XAxisTicksComponent.decorators = [
         class="refline-label"
         [attr.y]="-gridLineHeight-8"
         [attr.x]="activeVal"
-        text-anchor={{this.activeVal>(width-70):'end':'middle'}}
+        text-anchor={{this.activeVal>(this.width-70):'end':'middle'}}
       >
         {{ activeTime.toLocaleString() }}
       </svg:text>
@@ -1209,7 +1209,6 @@ class XAxisComponent {
         this.xOrient = 'bottom';
         this.xAxisOffset = 0;
         this.dimensionsChanged = new EventEmitter();
-        this.xClick = new EventEmitter();
         this.xAxisClassName = 'x axis';
         this.labelOffset = 0;
         this.fill = 'none';
@@ -1291,7 +1290,6 @@ XAxisComponent.propDecorators = {
     xAxisOffset: [{ type: Input }],
     activeTime: [{ type: Input }],
     dimensionsChanged: [{ type: Output }],
-    xClick: [{ type: Output }],
     ticksComponent: [{ type: ViewChild, args: [XAxisTicksComponent,] }]
 };
 
@@ -10101,7 +10099,7 @@ LineChartComponent.decorators = [
           [maxTickLength]="maxXAxisTickLength"
           [tickFormatting]="xAxisTickFormatting"
           [activeTime]="activeTime"
-          (xClick)="onXClick($event)"
+          (click)="onXClick($event)"
           [ticks]="xAxisTicks"
           (dimensionsChanged)="updateXAxisHeight($event)"
         ></svg:g>

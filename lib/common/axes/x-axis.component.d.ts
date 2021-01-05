@@ -17,7 +17,6 @@ export declare class XAxisComponent implements OnChanges {
     xAxisOffset: number;
     activeTime: any;
     dimensionsChanged: EventEmitter<any>;
-    xClick: EventEmitter<any>;
     xAxisClassName: string;
     tickArguments: any;
     transform: any;
