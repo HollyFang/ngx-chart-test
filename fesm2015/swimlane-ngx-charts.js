@@ -1159,7 +1159,7 @@ XAxisTicksComponent.decorators = [
         class="refline-path gridline-path-horizontal"
         [attr.x1]="activeVal"
         y1="0"
-        style="stroke: #000;"
+        style="stroke: #000;stroke-dasharray:none;"
         [attr.x2]="activeVal"
         [attr.y2]="gridLineHeight+6"
         [attr.transform]="gridLineTransform()"
@@ -1168,9 +1168,9 @@ XAxisTicksComponent.decorators = [
         class="refline-label"
         [attr.y]="-gridLineHeight-8"
         [attr.x]="activeVal"
-        text-anchor="middle"
+        text-anchor={{this.activeVal>(width-70):'end':'middle'}}
       >
-        {{ activeTime }}
+        {{ activeTime.toLocaleString() }}
       </svg:text>
     </svg:g>
 
@@ -1209,6 +1209,7 @@ class XAxisComponent {
         this.xOrient = 'bottom';
         this.xAxisOffset = 0;
         this.dimensionsChanged = new EventEmitter();
+        this.xClick = new EventEmitter();
         this.xAxisClassName = 'x axis';
         this.labelOffset = 0;
         this.fill = 'none';
@@ -1290,6 +1291,7 @@ XAxisComponent.propDecorators = {
     xAxisOffset: [{ type: Input }],
     activeTime: [{ type: Input }],
     dimensionsChanged: [{ type: Output }],
+    xClick: [{ type: Output }],
     ticksComponent: [{ type: ViewChild, args: [XAxisTicksComponent,] }]
 };
 
@@ -9835,6 +9837,7 @@ class LineChartComponent extends BaseChartComponent {
         this.tooltipDisabled = false;
         this.showRefLines = false;
         this.showRefLabels = true;
+        this.clickCallback = new EventEmitter();
         this.activate = new EventEmitter();
         this.deactivate = new EventEmitter();
         this.margin = [10, 20, 10, 20];
@@ -9990,6 +9993,10 @@ class LineChartComponent extends BaseChartComponent {
     onClick(data) {
         this.select.emit(data);
     }
+    onXClick(data) {
+        this.clickCallback.emit(data);
+        this.activeTime = data;
+    }
     trackBy(index, item) {
         return item.name;
     }
@@ -10094,6 +10101,7 @@ LineChartComponent.decorators = [
           [maxTickLength]="maxXAxisTickLength"
           [tickFormatting]="xAxisTickFormatting"
           [activeTime]="activeTime"
+          (xClick)="onXClick($event)"
           [ticks]="xAxisTicks"
           (dimensionsChanged)="updateXAxisHeight($event)"
         ></svg:g>
@@ -10248,6 +10256,7 @@ LineChartComponent.propDecorators = {
     yScaleMin: [{ type: Input }],
     yScaleMax: [{ type: Input }],
     activeTime: [{ type: Input }],
+    clickCallback: [{ type: Output }],
     activate: [{ type: Output }],
     deactivate: [{ type: Output }],
     tooltipTemplate: [{ type: ContentChild, args: ['tooltipTemplate',] }],

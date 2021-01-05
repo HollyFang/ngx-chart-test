@@ -39,6 +39,7 @@ export declare class LineChartComponent extends BaseChartComponent {
     yScaleMin: number;
     yScaleMax: number;
     activeTime: any;
+    clickCallback: EventEmitter<any>;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
     tooltipTemplate: TemplateRef<any>;
@@ -82,6 +83,7 @@ export declare class LineChartComponent extends BaseChartComponent {
     updateHoveredVertical(item: any): void;
     hideCircles(): void;
     onClick(data: any): void;
+    onXClick(data: any): void;
     trackBy(index: any, item: any): string;
     setColors(): void;
     getLegendOptions(): {
