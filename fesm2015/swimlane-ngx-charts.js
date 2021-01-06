@@ -1166,7 +1166,7 @@ XAxisTicksComponent.decorators = [
       />
       <svg:text
         class="refline-label"
-        [attr.y]="-gridLineHeight-8"
+        [attr.y]="-gridLineHeight-10"
         [attr.x]="activeVal"
         [attr.text-anchor]="(activeVal>width-70)?'end':'middle'"
       >
@@ -9992,7 +9992,8 @@ class LineChartComponent extends BaseChartComponent {
         this.select.emit(data);
     }
     onXClick(data) {
-        let _time = this.xScale.ticks.apply(this.xScale, [data.clientX - this.dims.xOffset])[0];
+        let _domain = this.getXDomain();
+        let _time = new Date((_domain[1].getTime() - _domain[0].getTime()) / this.dims.width * (data.clientX - this.dims.xOffset) + _domain[0].getTime());
         this.activeTime = _time;
         if (this.clickCallback)
             this.clickCallback.emit(_time);

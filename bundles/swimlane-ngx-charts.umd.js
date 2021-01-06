@@ -1445,7 +1445,7 @@
     XAxisTicksComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'g[ngx-charts-x-axis-ticks]',
-                    template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks\" class=\"tick\" [attr.transform]=\"tickTransform(tick)\">\n        <title>{{ tickFormat(tick) }}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\"\n        >\n          {{ tickTrim(tickFormat(tick)) }}\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n\n    <svg:g *ngIf=\"activeTime\">\n      <svg:line\n        class=\"refline-path gridline-path-horizontal\"\n        [attr.x1]=\"activeVal\"\n        y1=\"0\"\n        style=\"stroke: #000;stroke-dasharray:none;\"\n        [attr.x2]=\"activeVal\"\n        [attr.y2]=\"gridLineHeight+6\"\n        [attr.transform]=\"gridLineTransform()\"\n      />\n      <svg:text\n        class=\"refline-label\"\n        [attr.y]=\"-gridLineHeight-8\"\n        [attr.x]=\"activeVal\"\n        [attr.text-anchor]=\"(activeVal>width-70)?'end':'middle'\"\n      >\n        {{ activeTime.toLocaleString() }}\n      </svg:text>\n    </svg:g>\n\n\n    <svg:g *ngFor=\"let tick of ticks\" [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\" [attr.transform]=\"gridLineTransform()\">\n        <svg:line class=\"gridline-path gridline-path-vertical\" [attr.y1]=\"-gridLineHeight\" y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
+                    template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks\" class=\"tick\" [attr.transform]=\"tickTransform(tick)\">\n        <title>{{ tickFormat(tick) }}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\"\n        >\n          {{ tickTrim(tickFormat(tick)) }}\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n\n    <svg:g *ngIf=\"activeTime\">\n      <svg:line\n        class=\"refline-path gridline-path-horizontal\"\n        [attr.x1]=\"activeVal\"\n        y1=\"0\"\n        style=\"stroke: #000;stroke-dasharray:none;\"\n        [attr.x2]=\"activeVal\"\n        [attr.y2]=\"gridLineHeight+6\"\n        [attr.transform]=\"gridLineTransform()\"\n      />\n      <svg:text\n        class=\"refline-label\"\n        [attr.y]=\"-gridLineHeight-10\"\n        [attr.x]=\"activeVal\"\n        [attr.text-anchor]=\"(activeVal>width-70)?'end':'middle'\"\n      >\n        {{ activeTime.toLocaleString() }}\n      </svg:text>\n    </svg:g>\n\n\n    <svg:g *ngFor=\"let tick of ticks\" [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\" [attr.transform]=\"gridLineTransform()\">\n        <svg:line class=\"gridline-path gridline-path-vertical\" [attr.y1]=\"-gridLineHeight\" y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
                     changeDetection: core.ChangeDetectionStrategy.OnPush
                 },] }
     ];
@@ -9427,7 +9427,8 @@
             this.select.emit(data);
         };
         LineChartComponent.prototype.onXClick = function (data) {
-            var _time = this.xScale.ticks.apply(this.xScale, [data.clientX - this.dims.xOffset])[0];
+            var _domain = this.getXDomain();
+            var _time = new Date((_domain[1].getTime() - _domain[0].getTime()) / this.dims.width * (data.clientX - this.dims.xOffset) + _domain[0].getTime());
             this.activeTime = _time;
             if (this.clickCallback)
                 this.clickCallback.emit(_time);
