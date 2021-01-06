@@ -9427,8 +9427,10 @@
             this.select.emit(data);
         };
         LineChartComponent.prototype.onXClick = function (data) {
-            this.clickCallback.emit(data);
-            this.activeTime = data;
+            var _time = this.xScale.ticks.apply(this.xScale, [data.clientX - this.dims.xOffset])[0];
+            this.activeTime = _time;
+            if (this.clickCallback)
+                this.clickCallback.emit(_time);
         };
         LineChartComponent.prototype.trackBy = function (index, item) {
             return item.name;

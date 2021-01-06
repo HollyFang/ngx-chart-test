@@ -9992,8 +9992,10 @@ class LineChartComponent extends BaseChartComponent {
         this.select.emit(data);
     }
     onXClick(data) {
-        this.clickCallback.emit(data);
-        this.activeTime = data;
+        let _time = this.xScale.ticks.apply(this.xScale, [data.clientX - this.dims.xOffset])[0];
+        this.activeTime = _time;
+        if (this.clickCallback)
+            this.clickCallback.emit(_time);
     }
     trackBy(index, item) {
         return item.name;
