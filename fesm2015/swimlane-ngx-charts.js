@@ -1168,7 +1168,7 @@ XAxisTicksComponent.decorators = [
         class="refline-label"
         [attr.y]="-gridLineHeight-8"
         [attr.x]="activeVal"
-        text-anchor={{this.activeVal>(this.width-70):'end':'middle'}}
+        [attr.text-anchor]="(activeVal>width-70)?'end':'middle'"
       >
         {{ activeTime.toLocaleString() }}
       </svg:text>
@@ -10085,7 +10085,7 @@ LineChartComponent.decorators = [
           />
         </svg:clipPath>
       </svg:defs>
-      <svg:g [attr.transform]="transform" class="line-chart chart">
+      <svg:g [attr.transform]="transform" class="line-chart chart" (click)="onXClick($event)">
         <svg:g
           ngx-charts-x-axis
           *ngIf="xAxis"
@@ -10099,7 +10099,6 @@ LineChartComponent.decorators = [
           [maxTickLength]="maxXAxisTickLength"
           [tickFormatting]="xAxisTickFormatting"
           [activeTime]="activeTime"
-          (click)="onXClick($event)"
           [ticks]="xAxisTicks"
           (dimensionsChanged)="updateXAxisHeight($event)"
         ></svg:g>
