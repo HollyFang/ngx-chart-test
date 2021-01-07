@@ -72,7 +72,9 @@ export declare class LineChartComponent extends BaseChartComponent {
     timelineXDomain: any;
     timelineTransform: any;
     timelinePadding: number;
+    activeVal: any;
     update(): void;
+    setActiveTime(): void;
     updateTimeline(): void;
     getXDomain(): any[];
     getYDomain(): any[];

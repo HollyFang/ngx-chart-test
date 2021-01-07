@@ -11,7 +11,6 @@ export declare class XAxisTicksComponent implements OnChanges, AfterViewInit {
     showGridLines: boolean;
     gridLineHeight: any;
     width: any;
-    activeTime: any;
     rotateTicks: boolean;
     dimensionsChanged: EventEmitter<any>;
     verticalSpacing: number;
@@ -27,13 +26,11 @@ export declare class XAxisTicksComponent implements OnChanges, AfterViewInit {
     ticks: any;
     tickFormat: (o: any) => any;
     height: number;
-    activeVal: any;
     ticksElement: ElementRef;
     ngOnChanges(changes: SimpleChanges): void;
     ngAfterViewInit(): void;
     updateDims(): void;
     update(): void;
-    setActiveTime(): void;
     getRotationAngle(ticks: any): number;
     getTicks(): any;
     getMaxTicks(tickWidth: number): number;

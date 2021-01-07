@@ -1067,19 +1067,7 @@ class XAxisTicksComponent {
         else {
             this.textAnchor = 'middle';
         }
-        if (this.activeTime) {
-            this.setActiveTime();
-        }
         setTimeout(() => this.updateDims());
-    }
-    setActiveTime() {
-        this.activeVal = this.adjustedScale(this.activeTime);
-        /*this.activeTimePath = roundedRect(activeVal, this.height+6, 1, 0, 0, [
-          false,
-          false,
-          false,
-          false
-        ]);*/
     }
     getRotationAngle(ticks) {
         let angle = 0;
@@ -1153,28 +1141,6 @@ XAxisTicksComponent.decorators = [
       </svg:g>
     </svg:g>
 
-
-    <svg:g *ngIf="activeTime">
-      <svg:line
-        class="refline-path gridline-path-horizontal"
-        [attr.x1]="activeVal"
-        y1="0"
-        style="stroke: #000;stroke-dasharray:none;"
-        [attr.x2]="activeVal"
-        [attr.y2]="gridLineHeight+6"
-        [attr.transform]="gridLineTransform()"
-      />
-      <svg:text
-        class="refline-label"
-        [attr.y]="-gridLineHeight-10"
-        [attr.x]="activeVal"
-        [attr.text-anchor]="(activeVal>width-70)?'end':'middle'"
-      >
-        {{ activeTime.toLocaleString() }}
-      </svg:text>
-    </svg:g>
-
-
     <svg:g *ngFor="let tick of ticks" [attr.transform]="tickTransform(tick)">
       <svg:g *ngIf="showGridLines" [attr.transform]="gridLineTransform()">
         <svg:line class="gridline-path gridline-path-vertical" [attr.y1]="-gridLineHeight" y2="0" />
@@ -1196,7 +1162,6 @@ XAxisTicksComponent.propDecorators = {
     showGridLines: [{ type: Input }],
     gridLineHeight: [{ type: Input }],
     width: [{ type: Input }],
-    activeTime: [{ type: Input }],
     rotateTicks: [{ type: Input }],
     dimensionsChanged: [{ type: Output }],
     ticksElement: [{ type: ViewChild, args: ['ticksel',] }]
@@ -1256,7 +1221,6 @@ XAxisComponent.decorators = [
         [gridLineHeight]="dims.height"
         [width]="dims.width"
         [tickValues]="ticks"
-        [activeTime]="activeTime"
         (dimensionsChanged)="emitTicksHeight($event)"
       />
       <svg:g
@@ -1288,7 +1252,6 @@ XAxisComponent.propDecorators = {
     xAxisTickCount: [{ type: Input }],
     xOrient: [{ type: Input }],
     xAxisOffset: [{ type: Input }],
-    activeTime: [{ type: Input }],
     dimensionsChanged: [{ type: Output }],
     ticksComponent: [{ type: ViewChild, args: [XAxisTicksComponent,] }]
 };
@@ -9871,12 +9834,23 @@ class LineChartComponent extends BaseChartComponent {
         this.seriesDomain = this.getSeriesDomain();
         this.xScale = this.getXScale(this.xDomain, this.dims.width);
         this.yScale = this.getYScale(this.yDomain, this.dims.height);
+        if (this.activeTime) {
+            this.setActiveTime();
+        }
         this.updateTimeline();
         this.setColors();
         this.legendOptions = this.getLegendOptions();
         this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
         this.clipPathId = 'clip' + id().toString();
         this.clipPath = `url(#${this.clipPathId})`;
+    }
+    setActiveTime() {
+        let adjustedScale = this.xScale.bandwidth
+            ? function (d) {
+                return this.xScale(d) + this.xScale.bandwidth() * 0.5;
+            }
+            : this.xScale;
+        this.activeVal = adjustedScale(this.activeTime);
     }
     updateTimeline() {
         if (this.timeline) {
@@ -10101,7 +10075,6 @@ LineChartComponent.decorators = [
           [rotateTicks]="rotateXAxisTicks"
           [maxTickLength]="maxXAxisTickLength"
           [tickFormatting]="xAxisTickFormatting"
-          [activeTime]="activeTime"
           [ticks]="xAxisTicks"
           (dimensionsChanged)="updateXAxisHeight($event)"
         ></svg:g>
@@ -10172,6 +10145,24 @@ LineChartComponent.decorators = [
             </svg:g>
           </svg:g>
         </svg:g>
+      </svg:g>
+      <svg:g *ngIf="activeTime">
+        <svg:line
+          class="refline-path gridline-path-horizontal"
+          [attr.x1]="activeVal"
+          y1="0"
+          style="stroke: #000;stroke-dasharray:none;"
+          [attr.x2]="activeVal"
+          [attr.y2]="-dims.height-6"
+        />
+        <svg:text
+          class="refline-label"
+          [attr.y]="-dims.height-10"
+          [attr.x]="activeVal"
+          [attr.text-anchor]="(activeVal>dims.width-70)?'end':'middle'"
+        >
+          {{ activeTime.toLocaleString() }}
+        </svg:text>
       </svg:g>
       <svg:g
         ngx-charts-timeline
