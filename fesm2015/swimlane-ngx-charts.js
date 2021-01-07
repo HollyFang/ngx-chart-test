@@ -10146,14 +10146,14 @@ LineChartComponent.decorators = [
           </svg:g>
         </svg:g>
       </svg:g>
-      <svg:g *ngIf="activeTime">
+      <svg:g *ngIf="activeTime" [attr.transform]="transform">
         <svg:line
           class="refline-path gridline-path-horizontal"
           [attr.x1]="activeVal"
           y1="0"
           style="stroke: #000;stroke-dasharray:none;"
           [attr.x2]="activeVal"
-          [attr.y2]="-dims.height-6"
+          [attr.y2]="dims.height+6"
         />
         <svg:text
           class="refline-label"
