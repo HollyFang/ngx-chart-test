@@ -10157,7 +10157,7 @@ LineChartComponent.decorators = [
         />
         <svg:text
           class="refline-label"
-          [attr.y]="-dims.height-10"
+          [attr.y]="-3"
           [attr.x]="activeVal"
           [attr.text-anchor]="(activeVal>dims.width-70)?'end':'middle'"
         >
