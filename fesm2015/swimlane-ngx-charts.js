@@ -9966,11 +9966,12 @@ class LineChartComponent extends BaseChartComponent {
         this.select.emit(data);
     }
     onXClick(data) {
-        let _domain = this.getXDomain();
-        let _time = new Date((_domain[1].getTime() - _domain[0].getTime()) / this.dims.width * (data.offsetX - this.dims.xOffset) + _domain[0].getTime());
-        this.activeTime = _time;
-        if (this.clickCallback)
+        if (this.clickCallback) {
+            let _domain = this.getXDomain();
+            let _time = new Date((_domain[1].getTime() - _domain[0].getTime()) / this.dims.width * (data.offsetX - this.dims.xOffset) + _domain[0].getTime());
+            this.activeTime = _time;
             this.clickCallback.emit(_time);
+        }
     }
     trackBy(index, item) {
         return item.name;
