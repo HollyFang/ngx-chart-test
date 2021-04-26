@@ -2001,7 +2001,7 @@ class CircleSeriesComponent {
     getTooltipText({ tooltipLabel, value, seriesName, min, max }) {
         return `
       <span class="tooltip-label">${escapeLabel(seriesName)} • ${escapeLabel(tooltipLabel)}</span>
-      <span class="tooltip-val">${value.toLocaleString()}${this.getTooltipMinMaxText(min, max)}</span>
+      <span class="tooltip-val">${value === null || value === void 0 ? void 0 : value.toLocaleString()}${this.getTooltipMinMaxText(min, max)}</span>
     `;
     }
     getTooltipMinMaxText(min, max) {
