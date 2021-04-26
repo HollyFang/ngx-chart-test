@@ -9271,7 +9271,7 @@
             this.seriesDomain = this.getSeriesDomain();
             this.xScale = this.getXScale(this.xDomain, this.dims.width);
             this.yScale = this.getYScale(this.yDomain, this.dims.height);
-            if (this.activeTime) {
+            if (this.activeTime.getTime()) {
                 this.setActiveTime();
             }
             this.updateTimeline();
