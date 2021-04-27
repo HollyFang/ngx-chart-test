@@ -9808,6 +9808,7 @@ class LineChartComponent extends BaseChartComponent {
         this.timelinePadding = 10;
     }
     update() {
+        var _a;
         super.update();
         this.dims = calculateViewDimensions({
             width: this.width,
@@ -9834,7 +9835,7 @@ class LineChartComponent extends BaseChartComponent {
         this.seriesDomain = this.getSeriesDomain();
         this.xScale = this.getXScale(this.xDomain, this.dims.width);
         this.yScale = this.getYScale(this.yDomain, this.dims.height);
-        if (this.activeTime.getTime()) {
+        if ((_a = this.activeTime) === null || _a === void 0 ? void 0 : _a.getTime()) {
             this.setActiveTime();
         }
         this.updateTimeline();

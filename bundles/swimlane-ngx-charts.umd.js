@@ -9245,6 +9245,7 @@
             return _this;
         }
         LineChartComponent.prototype.update = function () {
+            var _a;
             _super.prototype.update.call(this);
             this.dims = calculateViewDimensions({
                 width: this.width,
@@ -9271,7 +9272,7 @@
             this.seriesDomain = this.getSeriesDomain();
             this.xScale = this.getXScale(this.xDomain, this.dims.width);
             this.yScale = this.getYScale(this.yDomain, this.dims.height);
-            if (this.activeTime.getTime()) {
+            if ((_a = this.activeTime) === null || _a === void 0 ? void 0 : _a.getTime()) {
                 this.setActiveTime();
             }
             this.updateTimeline();
@@ -9335,14 +9336,14 @@
             return domain;
         };
         LineChartComponent.prototype.getYDomain = function () {
-            var e_1, _a, e_2, _b;
+            var e_1, _b, e_2, _c;
             var domain = [];
             try {
-                for (var _c = __values(this.results), _d = _c.next(); !_d.done; _d = _c.next()) {
-                    var results = _d.value;
+                for (var _d = __values(this.results), _e = _d.next(); !_e.done; _e = _d.next()) {
+                    var results = _e.value;
                     try {
-                        for (var _e = (e_2 = void 0, __values(results.series)), _f = _e.next(); !_f.done; _f = _e.next()) {
-                            var d = _f.value;
+                        for (var _f = (e_2 = void 0, __values(results.series)), _g = _f.next(); !_g.done; _g = _f.next()) {
+                            var d = _g.value;
                             if (domain.indexOf(d.value) < 0) {
                                 domain.push(d.value);
                             }
@@ -9363,7 +9364,7 @@
                     catch (e_2_1) { e_2 = { error: e_2_1 }; }
                     finally {
                         try {
-                            if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
+                            if (_g && !_g.done && (_c = _f.return)) _c.call(_f);
                         }
                         finally { if (e_2) throw e_2.error; }
                     }
@@ -9372,7 +9373,7 @@
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
-                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                    if (_e && !_e.done && (_b = _d.return)) _b.call(_d);
                 }
                 finally { if (e_1) throw e_1.error; }
             }
@@ -9463,13 +9464,13 @@
             }
             return opts;
         };
-        LineChartComponent.prototype.updateYAxisWidth = function (_a) {
-            var width = _a.width;
+        LineChartComponent.prototype.updateYAxisWidth = function (_b) {
+            var width = _b.width;
             this.yAxisWidth = width;
             this.update();
         };
-        LineChartComponent.prototype.updateXAxisHeight = function (_a) {
-            var height = _a.height;
+        LineChartComponent.prototype.updateXAxisHeight = function (_b) {
+            var height = _b.height;
             this.xAxisHeight = height;
             this.update();
         };
@@ -9493,18 +9494,18 @@
             this.deactivate.emit({ value: item, entries: this.activeEntries });
         };
         LineChartComponent.prototype.deactivateAll = function () {
-            var e_3, _a;
+            var e_3, _b;
             this.activeEntries = __spread(this.activeEntries);
             try {
-                for (var _b = __values(this.activeEntries), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var entry = _c.value;
+                for (var _c = __values(this.activeEntries), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var entry = _d.value;
                     this.deactivate.emit({ value: entry, entries: [] });
                 }
             }
             catch (e_3_1) { e_3 = { error: e_3_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                    if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
                 }
                 finally { if (e_3) throw e_3.error; }
             }
