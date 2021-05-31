@@ -10305,7 +10305,10 @@ class LineSeriesComponent {
             return value;
         })
             .y(d => this.yScale(d.value))
-            .curve(this.curve);
+            .curve(this.curve)
+            .defined(function (d) {
+            return d.value !== null;
+        });
     }
     getRangeGenerator() {
         return area()
@@ -10325,7 +10328,10 @@ class LineSeriesComponent {
         })
             .y0(d => this.yScale(typeof d.min === 'number' ? d.min : d.value))
             .y1(d => this.yScale(typeof d.max === 'number' ? d.max : d.value))
-            .curve(this.curve);
+            .curve(this.curve)
+            .defined(function (d) {
+            return d.value !== null;
+        });
     }
     getAreaGenerator() {
         const xProperty = d => {

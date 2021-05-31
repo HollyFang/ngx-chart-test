@@ -9628,7 +9628,10 @@
                 return value;
             })
                 .y(function (d) { return _this.yScale(d.value); })
-                .curve(this.curve);
+                .curve(this.curve)
+                .defined(function (d) {
+                return d.value !== null;
+            });
         };
         LineSeriesComponent.prototype.getRangeGenerator = function () {
             var _this = this;
@@ -9649,7 +9652,10 @@
             })
                 .y0(function (d) { return _this.yScale(typeof d.min === 'number' ? d.min : d.value); })
                 .y1(function (d) { return _this.yScale(typeof d.max === 'number' ? d.max : d.value); })
-                .curve(this.curve);
+                .curve(this.curve)
+                .defined(function (d) {
+                return d.value !== null;
+            });
         };
         LineSeriesComponent.prototype.getAreaGenerator = function () {
             var _this = this;
